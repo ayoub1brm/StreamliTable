@@ -12,7 +12,7 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v3
         with:
-          images: cthiounn/dares-funathon-2023-sujet-6
+          images: berami8/streamlitable
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
