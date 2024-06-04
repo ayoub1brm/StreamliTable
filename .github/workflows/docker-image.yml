@@ -1,4 +1,4 @@
-name: Dockerize and deploy
+name: Dockerize and deploy test 1
 
 on:
   release:
