@@ -65,32 +65,25 @@ if bouton_action :
     
     # Function to convert documents to images and detect tables
     def process_documents(file_path,detection_model):
-        # Iterate through each document in the folder
-        #print('hello')
-        #for root, _, files in os.walk(folder_path):
-    
-        #for file in files:
         pdf_path = os.getcwd()
         pdf_path = os.path.join(pdf_path,'file.pdf')
         with open(pdf_path,'wb') as f:
             f.write(file_path)
-        # Assuming your documents are PDFs
         images = convert_from_path(pdf_path,dpi=200) # Convert document to images
         annotated_images= []
         for i, image in enumerate(images):
             # Detect tables in the image and annotate
-            layouts = table_detection(numpy.array(image),detection_model)  # Call table detection function
-            annotated_image = draw_points_on_text_blocks(numpy.array(image), layouts)
-            annotated_images.append(Image.fromarray(annotated_image))
+            layouts = table_detection(numpy.array(image),detection_model)
+            if layouts:
+                        annotated_images.append(i)# Call table detection function
+            #annotated_image = draw_points_on_text_blocks(numpy.array(image), layouts)
+            #annotated_images.append(Image.fromarray(annotated_image))
 
         return images, annotated_images
     buf = io.BytesIO()
     for uploaded_file in docs:
-        starting_image, final_image = process_documents(uploaded_file.getvalue(),model_tb)
-        st.text('Pdf to image')
-        st.image(starting_image)
-        st.text('Visualization of the table detection')
-        st.image(final_image)
+        starting_image, num_pages = process_documents(uploaded_file.getvalue(),model_tb)
+        st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
         j = 0
         for image in final_image:
             buf2 = io.BytesIO()
