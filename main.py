@@ -84,21 +84,4 @@ if bouton_action :
     for uploaded_file in docs:
         starting_image, num_pages = process_documents(uploaded_file.getvalue(),model_tb)
         st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
-        j = 0
-        for image in final_image:
-            buf2 = io.BytesIO()
-            image.save(buf2,'png')
-            byte_im =buf2.getvalue()            
-            with zipfile.ZipFile('result.zip', 'w') as img_zip:
-                img_zip.writestr(f"annotated{uploaded_file.name}/{j}.png", byte_im)
-            j +=1
-
-    byte_zip = buf.getvalue()
-    with open('result.zip') as fp:
-        st.download_button(
-                label="Download zip",
-                data=byte_zip,
-                file_name="result.zip",
-                mime="applciation/zip"
-        )
         
