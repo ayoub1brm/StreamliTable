@@ -3,7 +3,7 @@ FROM python:3.10
 COPY requirements.txt /tmp/
 RUN apt-get update && apt-get install libgl1-mesa-glx --yes
 RUN pip install torch
-RUN pip install --requirement /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
 
 WORKDIR /app
 COPY . .
