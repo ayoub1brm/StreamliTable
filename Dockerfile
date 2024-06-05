@@ -10,6 +10,5 @@ RUN pip install -r /tmp/requirements.txt
 WORKDIR /app
 COPY . .
 RUN curl -SL https://minio.lab.sspcloud.fr/ayoub1/model_final.pth -o model_final.pth
-RUN curl -SL https://minio.lab.sspcloud.fr/ayoub1/model_final_pub.pth -o model_final_pub.pth
 
 CMD ["streamlit", "run", "main.py","--server.port", "3838"]
