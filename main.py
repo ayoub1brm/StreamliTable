@@ -91,12 +91,12 @@ if bouton_action :
     col1,col2 = st.columns(2,gap="medium")
     for uploaded_file in docs:
                 with col1:
-                    starting_image, num_pages final_image = process_documents(uploaded_file.getvalue(),model_tb)
+                    starting_image, num_pages, final_image = process_documents(uploaded_file.getvalue(),model_tb)
                     st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
                     st.text('Visualization of the table detection')
                     st.image(final_image)
                 with col2:
-                    starting_image, num_pages final_image = process_documents(uploaded_file.getvalue(),model_pb)
+                    starting_image, num_pages, final_image = process_documents(uploaded_file.getvalue(),model_pb)
                     st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
                     st.text('Visualization of the table detection')
                     st.image(final_image)
