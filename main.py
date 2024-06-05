@@ -15,6 +15,7 @@ model_tb = lp.Detectron2LayoutModel(config_path ="config_tb.yaml",
             model_path ="model_final.pth",
             extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.8],
             label_map={0: "Table"})
+
 model_pb = lp.Detectron2LayoutModel(config_path ="config_pub.yml",
                                     model_path ="model_final_pub.pth",
                                   extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.6],
@@ -26,10 +27,10 @@ bouton_action = st.button("Lancer")
 
 if bouton_action :
     
-    def table_detection(image_path,model_tb):
+    def table_detection(image_path,model):
         #image = cv2.imread(image_path)
         image = image_path[..., ::-1] # load images
-        return model_tb.detect(image)
+        return model.detect(image)
     
     
     # Set the path to the Tesseract executable if it's not in your PATH
@@ -79,7 +80,8 @@ if bouton_action :
         for i, image in enumerate(images):
             # Detect tables in the image and annotate
             layouts = table_detection(numpy.array(image),detection_model)
-            if layouts:
+            for block in layouts:
+                if block.type == 'Table':
                         annotated_images.append(i+1)# Call table detection function
                         final_image.append(image)
             #annotated_image = draw_points_on_text_blocks(numpy.array(image), layouts)
@@ -93,9 +95,9 @@ if bouton_action :
                     st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
                     st.text('Visualization of the table detection')
                     st.image(final_image)
-                #with col2:
-                    #starting_image, num_pages final_image = process_documents(uploaded_file.getvalue(),model_pb)
-                    #st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
-                    #st.text('Visualization of the table detection')
-                    #st.image(final_image)
+                with col2:
+                    starting_image, num_pages final_image = process_documents(uploaded_file.getvalue(),model_pb)
+                    st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
+                    st.text('Visualization of the table detection')
+                    st.image(final_image)
         
