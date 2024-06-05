@@ -18,7 +18,7 @@ model_tb = lp.Detectron2LayoutModel(config_path ="config_tb.yaml",
 
 model_pb = lp.Detectron2LayoutModel(config_path ="config_pub.yml",
                                     model_path ="model_final_pub.pth",
-                                  extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.6],
+                                  extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.8],
                                   label_map={0: "Text", 1:"Title", 2: "List", 3:"Table", 4:"Figure"})
 
 docs = st.file_uploader("File upload", accept_multiple_files=True, type="pdf")
