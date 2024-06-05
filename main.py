@@ -16,11 +16,6 @@ model_tb = lp.Detectron2LayoutModel(config_path ="config_tb.yaml",
             extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.8],
             label_map={0: "Table"})
 
-model_pb = lp.Detectron2LayoutModel(config_path ="config_pub.yml",
-                                    model_path ="model_final_pub.pth",
-                                  extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.8],
-                                  label_map={0: "Text", 1:"Title", 2: "List", 3:"Table", 4:"Figure"})
-
 docs = st.file_uploader("File upload", accept_multiple_files=True, type="pdf")
 bouton_action = st.button("Lancer")
 
@@ -88,16 +83,10 @@ if bouton_action :
             #annotated_images.append(Image.fromarray(annotated_image))
 
         return images, annotated_images,final_image
-    col1,col2 = st.columns(2,gap="medium")
+
     for uploaded_file in docs:
-                with col1:
-                    starting_image, num_pages, final_image = process_documents(uploaded_file.getvalue(),model_tb)
-                    st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
-                    st.text('Visualization of the table detection')
-                    st.image(final_image)
-                with col2:
-                    starting_image, num_pages, final_image = process_documents(uploaded_file.getvalue(),model_pb)
-                    st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
-                    st.text('Visualization of the table detection')
-                    st.image(final_image)
-        
+            starting_image, num_pages, final_image = process_documents(uploaded_file.getvalue(),model_tb)
+            st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
+            st.text('Visualization of the table detection')
+            st.image(final_image)
+
