@@ -11,10 +11,14 @@ import numpy
 import io
 import zipfile
 
-model_tb = lp.Detectron2LayoutModel(config_path ="config.yaml",
-            model_path ="model_final.pth",
+model_tb = lp.Detectron2LayoutModel(config_path ="config_tb.yaml",
+            model_path ="model_final_tb.pth",
             extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.8],
             label_map={0: "Table"})
+model_pb = lp.Detectron2LayoutModel(config_path ="config_pb.yaml",
+                                    model_path ="model_final_pb.pth",
+                                  extra_config=["MODEL.ROI_HEADS.SCORE_THRESH_TEST", 0.6],
+                                  label_map={0: "Text", 1:"Title", 2: "List", 3:"Table", 4:"Figure"})
 
 docs = st.file_uploader("File upload", accept_multiple_files=True, type="pdf")
 bouton_action = st.button("Lancer")
