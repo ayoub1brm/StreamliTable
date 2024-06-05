@@ -71,17 +71,27 @@ if bouton_action :
             f.write(file_path)
         images = convert_from_path(pdf_path,dpi=200) # Convert document to images
         annotated_images= []
+        final_image = []
         for i, image in enumerate(images):
             # Detect tables in the image and annotate
             layouts = table_detection(numpy.array(image),detection_model)
             if layouts:
-                        annotated_images.append(i)# Call table detection function
+                        annotated_images.append(i+1)# Call table detection function
+                        final_image.append(image)
             #annotated_image = draw_points_on_text_blocks(numpy.array(image), layouts)
             #annotated_images.append(Image.fromarray(annotated_image))
 
-        return images, annotated_images
-    buf = io.BytesIO()
+        return images, annotated_images,final_image
+    col1,col2 = st.columns(2,gap="medium")
     for uploaded_file in docs:
-        starting_image, num_pages = process_documents(uploaded_file.getvalue(),model_tb)
-        st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
+                with col1:
+                    starting_image, num_pages final_image = process_documents(uploaded_file.getvalue(),model_tb)
+                    st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
+                    st.text('Visualization of the table detection')
+                    st.image(final_image)
+                #with col2:
+                    #starting_image, num_pages final_image = process_documents(uploaded_file.getvalue(),model_pb)
+                    #st.text(f'For document {uploaded_file.name} tables are on pages {num_pages}')
+                    #st.text('Visualization of the table detection')
+                    #st.image(final_image)
         
